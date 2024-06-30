@@ -8,23 +8,46 @@ function updateScores() {
 
     let winningTeam = ducksScore > turtlesScore ? 'Ducks' : 'Turtles';
     document.getElementById('winning-team-message').textContent = `${winningTeam} is currently winning!`;
+
+    // Update the font weight and alignment dynamically
+    document.getElementById('ducks-score').style.fontWeight = 'bold';
+    document.getElementById('ducks-score').style.textAlign = 'center';
+    document.getElementById('turtles-score').style.fontWeight = 'bold';
+    document.getElementById('turtles-score').style.textAlign = 'center';
 }
 
-// Function to fetch member count from Discord API (sample function, replace with actual API call if needed)
-async function fetchMemberCount(inviteCode) {
-    // Replace with actual implementation for fetching from Discord API if needed
-    return Math.floor(Math.random() * 100); // Random number for demonstration
+// Function to fetch member count from Discord API
+async function fetchMemberCount(inviteUrl) {
+    try {
+        const response = await fetch(inviteUrl);
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+        const data = await response.json();
+        return data.approximate_member_count || 0; // Return 0 if member count is not available
+    } catch (error) {
+        console.error('Error fetching member count:', error);
+        return 0; // Return 0 if there's an error
+    }
 }
 
-// Simulate updating scores (sample function, replace with actual logic)
-function pleaseGetTheDiscordAPIStuffIBegOfYouGodSaveMeSeriouslyPleaseWork() {
-    setInterval(async () => {
-        ducksScore = await fetchMemberCount('xZnjmaGfrQ');
-        turtlesScore = await fetchMemberCount('fH9kY9kZcf');
+// Function to update scores using Discord API data
+async function updateScoresFromAPI() {
+    try {
+        const turtlesCount = await fetchMemberCount('https://discord.com/api/v9/invites/fH9kY9kZcf?with_counts=true');
+        const ducksCount = await fetchMemberCount('https://discord.com/api/v9/invites/xZnjmaGfrQ?with_counts=true');
+
+        // Update scores based on member counts
+        turtlesScore = turtlesCount;
+        ducksScore = ducksCount;
+
+        // Update the displayed scores
         updateScores();
-    }, 60000); // Update every 60 seconds, huskey don't fucking edit this or the website burns down
+    } catch (error) {
+        console.error('Error updating scores from API:', error);
+    }
 }
 
-// Initialize the scores and start
-updateScores();
-pleaseGetTheDiscordAPIStuffIBegOfYouGodSaveMeSeriouslyPleaseWork();
+// Update scores initially and start periodic update
+updateScoresFromAPI();
+setInterval(updateScoresFromAPI, 30000); // Update scores every 30 seconds
