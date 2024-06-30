@@ -17,15 +17,14 @@ async function fetchMemberCount(inviteCode) {
 }
 
 // Simulate updating scores (sample function, replace with actual logic)
-function simulateScoring() {
+function pleaseGetTheDiscordAPIStuffIBegOfYouGodSaveMeSeriouslyPleaseWork() {
     setInterval(async () => {
-        // Simulate random scoring updates
         ducksScore = await fetchMemberCount('xZnjmaGfrQ');
         turtlesScore = await fetchMemberCount('fH9kY9kZcf');
         updateScores();
-    }, 5000); // Update every 5 seconds
+    }, 60000); // Update every 60 seconds, huskey don't fucking edit this or the website burns down
 }
 
-// Initialize the scores and start simulation
+// Initialize the scores and start
 updateScores();
-simulateScoring();
+pleaseGetTheDiscordAPIStuffIBegOfYouGodSaveMeSeriouslyPleaseWork();
