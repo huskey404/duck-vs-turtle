@@ -37,6 +37,13 @@ body {
     color: black;
 }
 
+.team-score {
+    font-size: 2em; /* Adjust font size as needed */
+    font-weight: bold;
+    text-align: center;
+    margin: 0;
+}
+
 #winning-team {
     margin-top: 20px;
     padding: 10px;
